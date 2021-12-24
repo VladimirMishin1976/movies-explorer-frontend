@@ -1,11 +1,13 @@
 import React from "react";
 
+import Topic from "../Topic/Topic";
+
 import './AboutProject.css';
 
 function AboutProject() {
   return (
-    <section className='about-project'>
-      <h2 className='about-project__title'>О проекте</h2>
+    <section className='about-project' id="about project">
+      <Topic  title='О проекте' />
 
       <div className='about-project__description'>
         <div className='about-project__description-block'>

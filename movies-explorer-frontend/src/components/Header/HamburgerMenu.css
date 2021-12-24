@@ -1,0 +1,113 @@
+.header__container {
+  display: flex;
+  align-items: center;
+}
+
+.header__hamburger-menu {
+  visibility: hidden;
+}
+
+.header__hamburger-menu_opened {
+  top: 0;
+}
+
+@media screen and (max-width: 800px) {
+  .header__container {
+    display: none;
+  }
+}
+
+.header__hamburger-icon {
+  width: 45px;
+  height: 45px;
+  background-image: url(../../images/hamburger-icon.svg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  transition: .2s linear;
+  visibility: hidden;
+}
+
+.header__hamburger-icon_opened {
+  position: absolute;
+  top: 22px;
+  right: 22px;
+  z-index: 1;
+  width: 33px;
+  height: 33px;
+}
+
+.header__hamburger-icon:hover {
+  cursor: pointer;
+  opacity: .6;
+}
+
+@media screen and (max-width: 530px) {
+  .header__hamburger-icon {
+    width: 39px;
+    height: 39px;
+  }
+
+  .header__hamburger-icon_opened {    
+    width: 33px;
+    height: 33px;
+  }
+}
+
+.header__hamburger-menu:checked~.header__hamburger-icon {
+  background-image: url(../../images/close-icon.svg);
+}
+
+@media screen and (max-width: 799px) {
+  .header__hamburger-icon {
+    visibility: visible;
+  }
+}
+
+.header__hamburger-popup {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, .3)
+}
+
+.header__container-hamburger {
+  background-color: #FFFFFF;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  max-width: 100vw;
+  min-width: 520px;
+  box-sizing: border-box;
+  padding: 160px 0 90px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+@media screen and (max-width: 530px) {
+  .header__container-hamburger {
+    min-width: 100vw;
+    padding: 144px 10px 46px;
+
+  }
+}
+
+.header__link-hamburger {
+  font-family: Inter, Arial, Helvetica, sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 35px;
+  color: #000000;
+  text-decoration: none;
+}
+
+.header__link-hamburger_active {
+  border-bottom: 2px solid #000;
+}
