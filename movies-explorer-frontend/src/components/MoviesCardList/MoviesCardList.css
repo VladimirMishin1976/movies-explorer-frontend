@@ -1,0 +1,60 @@
+.movies-list {
+  padding: 80px 0 90px;
+  margin: 0 auto;
+}
+
+.movies-list__list {
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 38px 20px;
+  list-style: none;
+  /* скрыть лишние строки - неудачно - при большом количестве - гэпы видны и заполнены частями изображений*/
+  /* grid-auto-rows: 0px;
+  overflow: hidden; */
+}
+
+/* У кнопки граница не по макету  -  плохо видно */
+.movies-list__button {
+  margin-top: 60px;
+  width: 100%;
+  padding: 11px 11px 9px;
+  background: #F9F9F9;
+  border-radius: 6px;
+  border-style: none;
+  border: 1px solid #8d8d8d;
+  font-family: Inter, Arial, Helvetica, sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 15px;
+  color: #000000;
+}
+
+.movies-list__devider {
+  padding-top: 158px;
+}
+
+@media screen and (max-width: 1000px) {
+  .movies-list__list {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+  }
+}
+
+@media screen and (max-width: 530px) {
+  .movies-list {
+    padding: 50px 0 80px;
+    margin: 0 auto;
+  }
+
+  .movies-list__list {
+    grid-template-columns: 1fr;
+    gap: 33px;
+  }
+
+  .movies-list__devider {
+    padding-top: 70px;
+  }
+}

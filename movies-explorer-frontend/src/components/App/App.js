@@ -1,13 +1,14 @@
 import './App.css';
+import '../../utils/generalStiles.css';
 import { Route, Switch } from 'react-router';
 
 import Main from '../Main/Main';
 import Movies from '../Movies/Movies';
-// import SavedMovies from '../SavedMovies/SavedMovies';
-// import Profile from '../Profile/Profile';
-// import Login from '../Login/Login';
-// import Register from '../Register/Register';
-
+import SavedMovies from '../SavedMovies/SavedMovies';
+import Profile from '../Profile/Profile';
+import Login from '../Login/Login';
+import Register from '../Register/Register';
+import Error from '../Error/Error';
 import Footer from '../Footer/Footer';
 import Header from '../Header/Header';
 
@@ -25,23 +26,29 @@ function App() {
             <Movies />
           </Route>
 
-          {/* <Route path='/saved-movies'>
+          <Route path='/saved-movies'>
             <SavedMovies />
-          </Route> */}
+          </Route>
 
-          {/* <Route path='/profile'>
+          <Route path='/profile'>
             <Profile />
-          </Route> */}
+          </Route>
 
-          {/* <Route path='/signin'>
+          <Route path='/signin'>
             <Login />
-          </Route> */}
+          </Route>
 
-          {/* <Route path='/signup'>
+          <Route path='/signup'>
             <Register />
-          </Route> */}
+          </Route>
+
+          <Route path='/error'>
+            <Error/>
+          </Route>
         </Switch>
-        <Footer></Footer>
+        <Route exact path={['/movies', '/saved-movies']}>
+          <Footer />
+        </Route>
       </div>
     </>
   );

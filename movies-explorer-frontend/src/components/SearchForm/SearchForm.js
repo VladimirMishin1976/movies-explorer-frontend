@@ -7,7 +7,7 @@ import './SearchForm.css';
 function SearchForm() {
   const [valueSearch, setValueSearch] = React.useState('');
 
-  function handleChangeValueSearch(e) {
+  function handleChange(e) {
     setValueSearch(e.target.value);
   }
 
@@ -16,8 +16,8 @@ function SearchForm() {
       <section className="search">
         <form className="search__form">
           <input className="search__input" type="text" placeholder="Фильм" name="search"
-            onChange={handleChangeValueSearch} value={valueSearch} required />
-          <button className="search__submit" type="submit" />
+            onChange={handleChange} value={valueSearch} required />
+          <button className="search__submit button-hover" type="submit" />
         </form>
 
         <FilterCheckbox />      

@@ -16,22 +16,28 @@
 
 .filter-checkbox__checkbox-decorate {
   width: 36px;
-  background-color: #2BE080;
+  background-color: #343434;
   border-radius: 20px;
   position: relative;
+  transition: all .3s ease-out;
+}
+
+.filter-checkbox__checkbox-decorate_checked {
+  background-color: #2BE080;
 }
 
 .filter-checkbox__checkbox-switch {
   position: absolute;
-  background-color: #fff;
+  background-color: #A0A0A0;
   width: 16px;
   height: 16px;
   margin: 1.5px 2px;
   border-radius: 8px;
-  transition: all 1s ease-out;
+  transition: all .2s ease-out;
 }
 
 .filter-checkbox__checkbox-switch_checked {
+  background-color: #F5F5F5;
   right: 0;
 }
 
@@ -39,31 +45,5 @@
   .filter-checkbox {
     font-size: 11px;
     line-height: 1.64;
-  }
-
-  .filter-checkbox__checkbox {
-    visibility: hidden;
-    width: 5px;
-  }
-
-  .filter-checkbox__checkbox-decorate {
-    width: 36px;
-    background-color: #2BE080;
-    border-radius: 20px;
-    position: relative;
-  }
-
-  .filter-checkbox__checkbox-switch {
-    position: absolute;
-    background-color: #fff;
-    width: 16px;
-    height: 16px;
-    margin: 1.5px 2px;
-    border-radius: 8px;
-    transition: all 1s ease-out;
-  }
-
-  .filter-checkbox__checkbox-switch_checked {
-    right: 0;
   }
 }

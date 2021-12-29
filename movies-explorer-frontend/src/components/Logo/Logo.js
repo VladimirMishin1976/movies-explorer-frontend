@@ -12,9 +12,13 @@ import './Logo.css';
 function Logo() {
   let location = useLocation().pathname;
   let width = window.innerWidth;
-  let logoFirst = changeLogo();
-  const [logo, setLogo] = React.useState(logoFirst);
+  const [logo, setLogo] = React.useState(changeLogo());
 
+  React.useEffect(() => {
+    setLogo(changeLogo());
+  }, [location]);
+
+  // возвращает нужный логотип от ширины экрана и 
   function changeLogo() {
     width = window.innerWidth;
     if ((location === '/movies') && width > 800) return logoTorus;
@@ -24,7 +28,7 @@ function Logo() {
     if (location === '/saved-movies' && width <= 800) return logoSmile;
 
     if (location === '/profile' && width > 800) return logoTorus;
-    if (location === '/profile' && width <= 800) return logoS;
+    if (location === '/profile' && width <= 800 && width > 530) return logoS;
 
     if (location === '/signin' || location === '/signup') return logoSmile;
 
@@ -38,7 +42,7 @@ function Logo() {
 
   return (
     <>
-      <Link className='logo' to='/'>
+      <Link className='logo button-hover' to='/'>
         <img className='header__logo' src={logo} alt='Логотип' />
       </Link>
     </>

@@ -1,20 +1,9 @@
-.header__container {
-  display: flex;
-  align-items: center;
-}
-
 .header__hamburger-menu {
   visibility: hidden;
 }
 
 .header__hamburger-menu_opened {
   top: 0;
-}
-
-@media screen and (max-width: 800px) {
-  .header__container {
-    display: none;
-  }
 }
 
 .header__hamburger-icon {
@@ -32,7 +21,7 @@
   position: absolute;
   top: 22px;
   right: 22px;
-  z-index: 1;
+  z-index: 2;
   width: 33px;
   height: 33px;
 }
@@ -70,7 +59,8 @@
   left: 0;
   bottom: 0;
   right: 0;
-  background-color: rgba(0, 0, 0, .3)
+  background-color: rgba(0, 0, 0, .3);
+  z-index: 1;
 }
 
 .header__container-hamburger {
@@ -88,6 +78,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 10px;
+  z-index: 1;
 }
 
 @media screen and (max-width: 530px) {

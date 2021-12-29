@@ -1,4 +1,4 @@
-.login {
+.register {
   margin: auto;
   padding: 77px 0 70px;
   width: calc(100% - 60px);
@@ -9,7 +9,7 @@
   flex-direction: column;
 }
 
-.login__title {
+.register__title {
   margin: 36px 0 38px;
   font-weight: 500;
   font-size: 24px;
@@ -17,12 +17,12 @@
   color: #000000;
 }
 
-.login__form {
-  margin-bottom: 140px;
+.register__form {
+  margin-bottom: 53px;
   width: 100%;
 }
 
-.login__caption {
+.register__caption {
   font-weight: normal;
   font-size: 14px;
   line-height: 17px;
@@ -31,19 +31,19 @@
   text-align: center;
 }
 
-.login__link {
+.register__link {
   color: #3456F3;
   text-decoration: none;
   margin: 0 0 0 6px;
 }
 
 @media screen and (max-width: 530px) {
-  .login {
+  .register {
     padding: 64px 0 30px;
     align-items: center;
   }
 
-  .login__title {
+  .register__title {
     margin: 47px 0 80px;
     font-weight: 500;
     font-size: 24px;
@@ -51,11 +51,11 @@
     color: #000000;
   }
 
-  .login__form {
-    margin-bottom: 224px;
+  .register__form {
+    margin-bottom: 140px;
   }
 
-  .login__caption {
+  .register__caption {
     font-size: 12px;
     line-height: 15px;
   }

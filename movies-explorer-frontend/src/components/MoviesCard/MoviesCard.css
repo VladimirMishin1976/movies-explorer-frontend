@@ -1,0 +1,66 @@
+.card {
+  font-family: Inter, Arial, Helvetica, sans-serif;
+  font-style: normal;
+  /* width: 270px;
+  max-width: 270px; */
+}
+
+.card__poster {
+  margin: 0;
+}
+
+.card__img {
+  object-fit: contain;
+  width: 100%;
+}
+
+.card__contaner {
+  margin: 11px 0 0 0;
+  padding-bottom: 10px;
+  min-height: 45px;
+  max-height: 45px;
+  box-sizing: border-box;
+  display: flex;
+  gap: 20px;
+  border-bottom: 1px solid #E8E8E8;
+}
+
+.card__caption {
+  margin-right: auto;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 16px;
+  color: #000000;
+  overflow: hidden;
+}
+
+.card__like {
+  margin-top: -4px;
+  height: 24px;
+  width: 24px;
+  min-width: 24px;
+  border-radius: 36px;
+  /* цвет не по макету, т. к. плохо видно  #F5F5F5 */
+  background-color: rgb(209, 208, 208);
+  background-image: url(../../images/like.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  transition: all .2s linear;
+}
+
+.card__like_liked {
+  background-image: url(../../images/like-liked.svg);
+}
+
+.card__like_dislike {
+  background-image: url(../../images/movie-dislike.svg);
+}
+
+.card__duration {
+  max-width: 150px;
+  margin: 6px 0 0 0;
+  font-weight: normal;
+  font-size: 11px;
+  line-height: 13px;
+  color: #A0A0A0;
+}
