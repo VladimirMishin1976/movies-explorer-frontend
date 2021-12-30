@@ -1,7 +1,6 @@
 import './App.css';
 import '../../utils/generalStiles.css';
-import { Route, Switch } from 'react-router';
-
+import { Route, Switch } from 'react-router-dom';
 import Main from '../Main/Main';
 import Movies from '../Movies/Movies';
 import SavedMovies from '../SavedMovies/SavedMovies';
@@ -43,7 +42,7 @@ function App() {
           </Route>
 
           <Route path='/error'>
-            <Error/>
+            <Error />
           </Route>
         </Switch>
         <Route exact path={['/movies', '/saved-movies']}>
