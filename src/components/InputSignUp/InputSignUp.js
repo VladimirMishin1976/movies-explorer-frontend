@@ -1,3 +1,4 @@
+import React from 'react';
 import './InputSignUp.css';
 
 function InputSignUp({ title, type, value, minLength, maxLength, handleChange, textError }) {

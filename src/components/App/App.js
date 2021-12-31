@@ -1,3 +1,5 @@
+import React from 'react';
+
 import './App.css';
 import '../../utils/generalStiles.css';
 import { Route, Switch } from 'react-router-dom';
