@@ -65,7 +65,8 @@
 }
 
 .about-project__diagram-text_front {
-  background-color: #2BE080;
+  background-color: #000;
+  color: #fff;
   min-width: 228px;
 }
 

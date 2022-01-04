@@ -11,6 +11,8 @@
   min-height: calc(100vh - 74px);
   max-width: 410px;
   width: calc(100% - 60px);
+  font-family: Inter, Arial, Helvetica, sans-serif;
+  font-style: normal;
 }
 
 .profile__title {
@@ -21,7 +23,7 @@
 }
 
 .profile__form {
-  margin-top: 123px;
+  margin: 123px auto 170px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -39,6 +41,7 @@
   padding-bottom: 16px;
   border-bottom: 1px solid #E8E8E8;
   margin-bottom: 16px;
+  white-space: nowrap;
 }
 
 .profile__label:last-child {
@@ -79,4 +82,19 @@
 
 .profile__button_logout {
   color: #FF004D;
+}
+
+@media screen and (max-width: 530px) {
+  .profile__form {
+    margin: 78px 0 331px;
+  }
+
+  .profile {
+    padding-bottom: 40px;
+  }
+
+  .profile__button {
+    font-size: 12px;
+    line-height: 15px;
+  }
 }

@@ -24,15 +24,15 @@ function Profile() {
           <input className='profile__input' type='text' value={name} placeholder='Имя' onChange={handleChangeName}
             minLength='2' maxLength='40' required />
         </label>
-        <label className='profile__label'>Почта
+        <label className='profile__label'>E-mail
           <input className='profile__input' type='email' value={email} placeholder='Почта' onChange={handleChangeEmail} required />
         </label>
       </form>
 
-      <span className='profile__error'>При обновлении профиля произошла ошибка.</span>
+      {/* <span className='profile__error'>При обновлении профиля произошла ошибка.</span> */}
       <button className='profile__button button-hover' >Редактировать</button>
       <button className='profile__button profile__button_logout button-hover' >Выйти из аккаунта</button>
-      <ButtonAccept text='Сохранить' />
+      {/* <ButtonAccept text='Сохранить' /> */}
     </main>
   );
 }

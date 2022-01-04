@@ -6,19 +6,19 @@ import MoviesCard from '../MoviesCard/MoviesCard';
 import './MoviesCardList.css';
 
 let countMoreClicks = 0;
+// временно для заполнения 
+const cards = new Array(
+  window.location.pathname === '/saved-movies' && window.innerWidth > 600 ? 3
+    : '/saved-movies' && window.innerWidth <= 600 ? 2
+      : 20).fill({
+        image: 'https://cdn.pixabay.com/photo/2020/12/01/10/04/dog-5793625_960_720.jpg',
+        name: '33 слова о дизайне',
+        duration: '1ч 42м'
+      });
+// -=----------------------------------
+
 
 function MoviesCardList() {
-
-  // временно для заполнения 
-  const cards = new Array(
-    window.location.pathname === '/saved-movies' ? 2 : 20
-  ).fill({
-    image: 'https://cdn.pixabay.com/photo/2020/12/01/10/04/dog-5793625_960_720.jpg',
-    name: '33 слова о дизайне',
-    duration: '1ч 42м'
-  });
-  // -=----------------------------------
-
   const [countCards, setCountCards] = React.useState(numberCardsOfWidth());
 
   //  счетчик кликов кнопки - еще 
@@ -33,15 +33,14 @@ function MoviesCardList() {
     let width = window.innerWidth;
     let numberCards = 0;
     numberCards = 5 + countMoreClicks;
-    if (width > 530) numberCards = 8 + 2 * countMoreClicks;
-    if (width > 1000) numberCards = 16 + 4 * countMoreClicks;
+    if (width > 600) numberCards = 7 + countMoreClicks;
     if (cards.length > numberCards) return numberCards;
     return cards.length;
   }
 
-  window.addEventListener('resize', (e) => {
-    setCountCards(numberCardsOfWidth());
-  });
+  // window.addEventListener('resize', (e) => {
+  //   setCountCards(numberCardsOfWidth());
+  // });
 
   return (
     <section className="movies-list">
@@ -56,7 +55,6 @@ function MoviesCardList() {
         }
       </ul>
 
-      {/* У кнопки граница не по макету  -  плохо видно */}
       <Route path='/movies'>
         <button className='movies-list__button button-hover' type='button' aria-label='Больше видео'
           onClick={onMoreClick}>Ещё</button>

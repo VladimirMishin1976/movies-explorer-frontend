@@ -1,51 +1,47 @@
 .card {
   font-family: Inter, Arial, Helvetica, sans-serif;
   font-style: normal;
-  /* width: 270px;
-  max-width: 270px; */
 }
 
 .card__poster {
   margin: 0;
+  background-color: #F9F9F9;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row-reverse;
 }
 
 .card__img {
   object-fit: contain;
-  width: 100%;
+  width: 220px;
+  height: 122px;
+  margin: 6px;
 }
 
 .card__contaner {
-  margin: 11px 0 0 0;
-  padding-bottom: 10px;
-  min-height: 45px;
-  max-height: 45px;
-  box-sizing: border-box;
+  margin: 22px;
   display: flex;
-  gap: 20px;
-  border-bottom: 1px solid #E8E8E8;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .card__caption {
-  margin-right: auto;
   font-weight: 500;
-  font-size: 13px;
-  line-height: 16px;
+  font-size: 18px;
+  line-height: 22px;
   color: #000000;
   overflow: hidden;
 }
 
 .card__like {
-  margin-top: -4px;
-  height: 24px;
-  width: 24px;
-  min-width: 24px;
-  border-radius: 36px;
-  /* цвет не по макету, т. к. плохо видно  #F5F5F5 */
-  background-color: rgb(209, 208, 208);
-  background-image: url(../../images/like.svg);
-  background-repeat: no-repeat;
-  background-position: center;
-  transition: all .2s linear;
+  padding: 0;
+  margin: -2px -4px;
+  border-style: none;
+  width: 22px;
+  height: 14px;
+  background: url(../../images/like.svg) no-repeat center;
+  background-size: contain;
+  transition: all .5s linear;
 }
 
 .card__like_liked {
@@ -58,9 +54,43 @@
 
 .card__duration {
   max-width: 150px;
-  margin: 6px 0 0 0;
+  margin: 13px 0 0;
   font-weight: normal;
   font-size: 11px;
   line-height: 13px;
   color: #A0A0A0;
+}
+
+@media screen and (max-width: 580px) {
+  .card__poster {
+    justify-content: start;
+    flex-direction: column;
+  }
+
+  .card__img {
+    object-fit: contain;
+    width: 100%;
+    height: calc(100% * .5545);
+    margin: 0;
+  }
+
+  .card__contaner {
+    margin: 14px 16px 14px 11px;
+    display: flex;
+    flex-direction: row;
+  }
+
+  .card__caption {
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 15px;
+  }
+
+  .card__duration {
+  margin-top: 9px;
+  }
+
+  .card__like {
+  margin-top: 1px;
+  }
 }

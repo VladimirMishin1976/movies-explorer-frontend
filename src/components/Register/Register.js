@@ -9,7 +9,7 @@ import './Register.css';
 function Register() {
   const [email, setEmail] = React.useState('pochta@yandex.ru');
   const [password, setPassword] = React.useState('');
-   const [name, setName] = React.useState('Виталий');
+  const [name, setName] = React.useState('Виталий');
 
   function handleChanheEmail(e) {
     setEmail(e.target.value)
@@ -28,14 +28,15 @@ function Register() {
       <Logo></Logo>
       <h2 className='register__title'>Добро пожаловать!</h2>
       <form className='register__form'>
-      <InputSignUp
+        <InputSignUp
           title='Имя'
           type='text'
           value={name}
           minLength='2'
           maxLength='40'
           handleChange={handleChanheName}
-          textError='' />
+          textError=''
+          decorated={false} />
 
         <InputSignUp
           title='E-mail'
@@ -44,7 +45,8 @@ function Register() {
           minLength='2'
           maxLength='40'
           handleChange={handleChanheEmail}
-          textError='' />
+          textError=''
+          decorated={true} />
 
         <InputSignUp
           title='Пароль'
@@ -53,7 +55,8 @@ function Register() {
           minLength='6'
           maxLength='40'
           handleChange={handleChanhePassword}
-          textError='Что-то пошло не так...' />
+          textError='Что-то пошло не так...'
+          decorated={false} />
       </form>
       <ButtonAccept text='Зарегистрироваться' />
       <p className='register__caption'>Уже зарегистрированы?

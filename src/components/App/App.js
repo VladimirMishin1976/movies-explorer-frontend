@@ -47,7 +47,7 @@ function App() {
             <Error />
           </Route>
         </Switch>
-        <Route exact path={['/movies', '/saved-movies']}>
+        <Route exact path={['/','/movies', '/saved-movies']}>
           <Footer />
         </Route>
       </div>

@@ -20,7 +20,8 @@ function Login() {
 
   return (
     <section className='login' >
-      <Logo></Logo>
+      <Logo/>
+
       <h2 className='login__title'>Рады видеть!</h2>
       <form className='login__form'>
         <InputSignUp
@@ -39,7 +40,7 @@ function Login() {
           minLength='6'
           maxLength='40'
           handleChange={handleChanhePassword}
-          textError='Что-то пошло не так...' />
+          textError='' />
       </form>
       <ButtonAccept text='Войти' />
       <p className='login__caption'>Ещё не зарегистрированы?

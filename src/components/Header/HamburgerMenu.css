@@ -37,7 +37,7 @@
     height: 39px;
   }
 
-  .header__hamburger-icon_opened {    
+  .header__hamburger-icon_opened {
     width: 33px;
     height: 33px;
   }
@@ -45,6 +45,7 @@
 
 .header__hamburger-menu:checked~.header__hamburger-icon {
   background-image: url(../../images/close-icon.svg);
+  position: fixed;
 }
 
 @media screen and (max-width: 799px) {
@@ -65,27 +66,28 @@
 
 .header__container-hamburger {
   background-color: #FFFFFF;
-  position: absolute;
+  position: fixed;
   top: 0;
   bottom: 0;
   right: 0;
   max-width: 100vw;
   min-width: 520px;
   box-sizing: border-box;
-  padding: 160px 0 90px;
+  padding: 153px 0 90px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
+  grid-gap: 10px;
+  gap: 14px;
   z-index: 1;
 }
 
 @media screen and (max-width: 530px) {
   .header__container-hamburger {
     min-width: 100vw;
-    padding: 144px 10px 46px;
-
+    padding: 144px 10px 27px;
+    gap: 10px;
   }
 }
 
