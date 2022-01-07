@@ -4,42 +4,46 @@ import Logo from '../Logo/Logo';
 import InputSignUp from '../InputSignUp/InputSignUp';
 import ButtonAccept from '../ButtonAccept/ButtonAccept';
 
+import useInput from '../../hooks/useInput';
+
 import './Login.css';
 
 function Login() {
-  const [email, setEmail] = React.useState('pochta@yandex.ru')
-  const [password, setPassword] = React.useState('')
+  // const [email, setEmail] = React.useState('pochta@yandex.ru')
+  // const [password, setPassword] = React.useState('')
 
-  function handleChanheEmail(e) {
-    setEmail(e.target.value)
-  };
+  // function handleChanheEmail(e) {
+  //   setEmail(e.target.value)
+  // };
 
-  function handleChanhePassword(e) {
-    setPassword(e.target.value)
-  };
+  // function handleChanhePassword(e) {
+  //   setPassword(e.target.value)
+  // };
+  const useInputEmail = useInput('pochta@yandex.ru');
+  const useInputPassword = useInput('');
 
   return (
     <section className='login' >
-      <Logo/>
+      <Logo />
 
       <h2 className='login__title'>Рады видеть!</h2>
       <form className='login__form'>
-        <InputSignUp
+        <InputSignUp {...useInputEmail}
           title='E-mail'
           type='email'
-          value={email}
+          // value={email}
           minLength='2'
           maxLength='40'
-          handleChange={handleChanheEmail}
+          // handleChange={handleChanheEmail}
           textError='' />
 
-        <InputSignUp
+        <InputSignUp {...useInputPassword}
           title='Пароль'
           type='password'
-          value={password}
+          // value={password}
           minLength='6'
           maxLength='40'
-          handleChange={handleChanhePassword}
+          // handleChange={handleChanhePassword}
           textError='' />
       </form>
       <ButtonAccept text='Войти' />

@@ -1,13 +1,13 @@
 import React from 'react';
 import './InputSignUp.css';
 
-function InputSignUp({ title, type, value, minLength, maxLength, handleChange, textError, decorated }) {
+function InputSignUp({ title, type, value, minLength, maxLength, onChange, textError, decorated }) {
   return (
     <label className='input-signup'>{title}
       <input className={`input-signup__input ${decorated && 'input-signup__input_decorated'}`}
         type={type}
         value={value}
-        onChange={handleChange}
+        onChange={onChange}
         minLength={minLength}
         maxLength={maxLength}
         required />
