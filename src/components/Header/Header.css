@@ -1,0 +1,123 @@
+.header {
+  position: relative;
+  min-height: 74px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 70px 0;
+  background-color: #fff;
+  color: #000;
+}
+
+.header__container {
+  display: flex;
+  align-items: center;
+}
+
+.header__logo {
+  margin-right: auto;
+}
+
+.header_page_main {
+  background-color: #F3C1F8;
+}
+
+.header__link {
+  display: block;
+  text-decoration: none;
+  color: #000;
+  margin-left: 16px;
+  font-weight: normal;
+  font-size: 13px;
+  line-height: 1.38;
+}
+
+.header__link_page_main {
+  margin-left: 30px;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.header__link_active {
+  font-weight: 500;
+}
+
+.header__button-landing {
+  padding: 8px 20px;
+  background-color: #000;
+  border-radius: 3px;
+  min-width: 76px;
+  min-height: 32px;
+  cursor: pointer;
+  border-style: none;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+  color: #fff
+}
+
+.header__button {
+  text-decoration: none;
+  margin-left: 364px;
+  padding: 3px 3px 3px 11px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  border-style: none;
+  border-radius: 40px;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 12px;
+  color: #222222;
+  background: #FFFFFF;
+  box-shadow: 0px 3px 14px rgba(0, 0, 0, 0.08);
+}
+
+.header__button_hamburger {
+  margin: auto 0 0 0;
+}
+
+@media screen and (max-width: 1400px) {
+  .header__button {
+    margin-left: 26vw;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .header {
+    min-height: 74px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 30px;
+  }
+
+  .header__container {
+    display: none;
+  }
+
+  .header__button {
+    margin: auto 0 0 0;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .header {
+    padding: 0 14px;
+  }
+
+  .header__link {
+    font-size: 10px;
+    margin-left: 14px;
+  }
+
+  .header__button-landing {
+    padding: 5px 12px;
+    min-width: 54px;
+    min-height: 26px;
+    font-size: 10px;
+  }
+}

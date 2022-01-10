@@ -1,2 +1,2 @@
 # movies-explorer-frontend
-diplom practicum frontend
+## diplom practicum frontend
