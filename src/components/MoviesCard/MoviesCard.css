@@ -12,7 +12,7 @@
 }
 
 .card__img {
-  object-fit: contain;
+  object-fit: cover;
   width: 220px;
   height: 122px;
   margin: 6px;

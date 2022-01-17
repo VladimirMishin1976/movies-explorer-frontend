@@ -1,28 +1,31 @@
 import React from "react";
 
-import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
+import useInput from '../../hooks/useInput';
 
+import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
 import './SearchForm.css';
 
-function SearchForm() {
-  const [valueSearch, setValueSearch] = React.useState('');
+function SearchForm({ handleSubmit }) {
+  const useInputsearch = useInput('');
 
-  function handleChange(e) {
-    setValueSearch(e.target.value);
-  }
+  
 
   return (
     <>
       <section className="search">
-        <form className="search__form">
-          <input className="search__input" type="text" placeholder="Фильм" name="search"
-            onChange={handleChange} value={valueSearch} required />
+        <form className="search__form" onSubmit={(e) => {
+          e.preventDefault();
+          handleSubmit(e);
+          useInputsearch.clear();
+        }}>
+          <input {...useInputsearch.input}
+            className="search__input" type="text" placeholder="Фильм" name="search" required />
           <button className="search__submit button-hover" type="submit" >Найти</button>
         </form>
         <div className='search__check-box'>
           <FilterCheckbox />
         </div>
-      </section>     
+      </section>
       <div className='search__decor' />
     </>
   )

@@ -8,10 +8,14 @@ function useInput(initialValue) {
     setValue(event.target.value);
   }
 
-  return {
-    value, onChange
+  const clear = () => {
+    setValue('');
   }
 
+  return {
+    input: { value, onChange },
+    value, clear, onChange
+  }
 }
 
 export default useInput;

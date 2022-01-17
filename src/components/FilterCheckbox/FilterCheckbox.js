@@ -1,12 +1,16 @@
 import React from "react";
 
 import './FilterCheckbox.css';
+import { AppStatesContext } from "../../contexts/AppStatesContext";
 
 function FilterCheckbox() {
-  const [isChecked, setChecked] = React.useState(false);
+  // const [isChecked, setChecked] = React.useState(false);
+
+  const isChecked = React.useContext(AppStatesContext).isShirtChoosen;
+  const setIsChecked = React.useContext(AppStatesContext).setIsShirtChoosen;
 
   function onChange(event) {
-    setChecked(event.target.checked);
+    setIsChecked(event.target.checked);
   }
 
   return (

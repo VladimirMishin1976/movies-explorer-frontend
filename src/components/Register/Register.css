@@ -18,7 +18,6 @@
 }
 
 .register__form {
-  margin-bottom: 115px;
   display: flex;
   flex-direction: column;
   gap: 7px;
@@ -40,6 +39,39 @@
   margin: 0 0 0 6px;
 }
 
+.button {
+  font-family: Inter, Arial, Helvetica, sans-serif;
+  font-weight: normal;
+  font-size: 13px;
+  line-height: 16px;
+  border: none;
+  color: #fff;
+  background-color: #000;
+  border-radius: 3px;
+  width: 100%;
+  min-height: 45px;
+}
+
+.button_place_register {
+  margin-top: 128px;
+}
+
+.button_disabled {
+  background-color: #F8F8F8;
+  color: #C2C2C2;
+  cursor: unset;
+}
+
+.button_disabled:hover {
+  opacity: 1;
+}
+
+@media screen and (max-width: 800px) {
+  .register {
+    padding: 232px 0;
+  }
+}
+
 @media screen and (max-width: 530px) {
   .register {
     padding: 56px 0 30px;
@@ -54,16 +86,12 @@
     color: #000000;
   }
 
-  .register__form {
-    margin-bottom: 200px;
-  }
-
   .register__caption {
     font-size: 12px;
     line-height: 15px;
   }
-}
 
-.reg {
-  border-bottom: 1px solid #000;
+  .button_place_register {
+    margin-top: 215px;
+  }
 }
