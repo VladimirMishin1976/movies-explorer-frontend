@@ -6,8 +6,7 @@ import { AppStatesContext } from '../../contexts/AppStatesContext';
 import Preloader from '../Preloader/Preloader';
 import './MoviesCardList.css';
 
-function MoviesCardList() {
-  const cardList = React.useContext(AppStatesContext).movieToDisplayMain;
+function MoviesCardList({movieList}) {
   const isPreload = React.useContext(AppStatesContext).isPreloader;
   const [countMoreClicks, setСountMoreClicks] = React.useState(1);
   const [countCards, setCountCards] = React.useState(numberCardsOfWidth());
@@ -20,11 +19,9 @@ function MoviesCardList() {
   //    и количества карточек
   function numberCardsOfWidth() {
     let width = window.innerWidth;
-    let numberCards = 0;
-    numberCards = countMoreClicks * 5;
+    let numberCards = countMoreClicks * 5;
     if (width > 600) numberCards = countMoreClicks * 7;
-    if (cardList.length > numberCards) return numberCards;
-    return cardList.length;
+    return numberCards;
   }
 
   const resizeHandler = () => {
@@ -42,9 +39,9 @@ function MoviesCardList() {
     <section className="movies-list">
       {isPreload && <Preloader />}
       <ul className="movies-list__list" >
-        {cardList.slice(0, countCards).map((movie, i) => {
+        {movieList.slice(0, countCards).map((movie) => {
           return (
-            <li className='movies-list__item' key={movie.id}>
+            <li className='movies-list__item' key={movie.movieId}>
               <MoviesCard movie={movie} />
             </li>
           );
@@ -53,7 +50,7 @@ function MoviesCardList() {
       </ul>
 
       <Route path='/movies'>
-        <button className={`movies-list__button ${countCards >= cardList.length && 'movies-list__button_hidden'} 
+        <button className={`movies-list__button ${countCards >= movieList.length && 'movies-list__button_hidden'} 
         button-hover`} type='button' aria-label='Больше видео' onClick={onMoreClick}>Ещё</button>
       </Route>
 

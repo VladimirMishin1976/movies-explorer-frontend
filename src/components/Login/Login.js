@@ -35,6 +35,7 @@ function Login({ handleLogin }) {
 
         <label className='input-signup'>Пароль
           <input className='input-signup__input'
+            autoComplete='off'
             name='password'
             type='password'
             value={values.password || ''}

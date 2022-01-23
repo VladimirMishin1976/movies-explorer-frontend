@@ -8,16 +8,17 @@ import './SearchForm.css';
 function SearchForm({ handleSubmit }) {
   const useInputsearch = useInput('');
 
-  
+  function onSubmit(e) {
+    e.preventDefault();
+    const searchText = e.target[0].value;
+    handleSubmit(searchText);
+    useInputsearch.clear();
+  }
 
   return (
     <>
       <section className="search">
-        <form className="search__form" onSubmit={(e) => {
-          e.preventDefault();
-          handleSubmit(e);
-          useInputsearch.clear();
-        }}>
+        <form className="search__form" onSubmit={onSubmit}>
           <input {...useInputsearch.input}
             className="search__input" type="text" placeholder="Фильм" name="search" required />
           <button className="search__submit button-hover" type="submit" >Найти</button>

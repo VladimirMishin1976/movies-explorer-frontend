@@ -23,12 +23,12 @@ function Register({ handleRegister }) {
       <h2 className='register__title'>Добро пожаловать!</h2>
       <form className='register__form' onSubmit={handleSubmit} noValidate name='signup_form'>
         <label className='input-signup'>Имя
-          <input className={`input-signup__input `}
+          <input className='input-signup__input'
             name='name'
             type='text'
             value={values.name || ''}
             minLength='2'
-            maxLength='40'
+            maxLength='30'
             required
             onChange={handleChange} />
           <span className='input-signup__error'>{errors.name}</span>
@@ -46,6 +46,7 @@ function Register({ handleRegister }) {
 
         <label className='input-signup'>Пароль
           <input className='input-signup__input'
+            autoComplete='off'
             name='password'
             type='password'
             value={values.password || ''}
@@ -55,7 +56,8 @@ function Register({ handleRegister }) {
           <span className='input-signup__error'>{errors.password}</span>
         </label>
 
-        <button className={`button button_place_register button-hover ${!isValid && 'button_disabled'}`} disabled={!isValid}>Зарегистрироваться</button>
+        <button className={`button button_place_register ${isValid ? 'button-hover' : 'button_disabled'}`}
+          disabled={!isValid}>Зарегистрироваться</button>
       </form>
       <p className='register__caption'>Уже зарегистрированы?
         <Link className='register__link' to='/signin'>Войти</Link>

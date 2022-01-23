@@ -18,37 +18,75 @@ import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import { AppStatesContext } from '../../contexts/AppStatesContext';
 
-import getErrorMessageRus from '../../utils/getErrorMessageRus';
+import * as utils from '../../utils/utils';
+import { BEATFILMS_URL_BACKEND } from '../../utils/constants';
 
 function App() {
-  const [loggedIn, setLoggedIn] = React.useState(false);
+  const [loggedIn, setLoggedIn] = React.useState(true);
   const [currentUser, setCurrentUser] = React.useState({});
   const [moviesSearched, setMoviesSearched] = React.useState(JSON.parse(localStorage.getItem('movies-searched')) || []);
-  const [moviesShirtList, setMoviesShirtList] = React.useState(JSON.parse(localStorage.getItem('movies-searched-shirt')) || []);
   const [movieToDisplayMain, setMovieToDisplayMain] = React.useState(moviesSearched || []);
+  const [moviesSaved, setMoviesSaved] = React.useState([]); // сохраненные/лайкнутые видео
+  const [moviesToDisplaySaved, setMoviesToDisplaySaved] = React.useState([]);
   const [isShirtChoosen, setIsShirtChoosen] = React.useState(false);
   const [isPreloader, setIsPreloader] = React.useState(false);
   const [infoPopup, setInfoPopup] = React.useState({ isOpen: false, text: 'Тут что-то не так' });
   const history = useHistory();
+  const locationStart = window.location.pathname;
 
-  function handleSearchMovies(e) {//получение списка с BeatfilmMoviesApi и поиск фильмов по ключевым словам
-    e.preventDefault();           // в moviesSearched
-    setIsPreloader(true);
-    const searchText = e.target[0].value;
+  React.useEffect(() => {
+    Promise.all([mainApi.getUserInfo(), mainApi.getSavedMovies()])
+      .then(([userData, savedMovies]) => {
+        setCurrentUser(userData);
+        history.push(locationStart);
+        setMoviesSaved(savedMovies);
+        setLoggedIn(true);
+      }).catch(err => {
+        setLoggedIn(false)
+        console.error(err);
+      });
+  }, [loggedIn]);
+
+  React.useEffect(() => { //реакция на выбор короткометражек
+    if (isShirtChoosen) setMovieToDisplayMain(moviesSearched.filter(movie => movie.duration <= 40));
+    if (!isShirtChoosen) setMovieToDisplayMain(moviesSearched);
+  }, [isShirtChoosen, moviesSearched]);
+
+  React.useEffect(() => { //реакция на выбор короткометражек
+    if (isShirtChoosen) setMoviesToDisplaySaved(moviesSaved.filter(movie => movie.duration <= 40));
+    if (!isShirtChoosen) setMoviesToDisplaySaved(moviesSaved);
+  }, [isShirtChoosen, moviesSaved]);
+
+
+  function handleSearchMovies(searchText) {//получение списка с BeatfilmMoviesApi и поиск фильмов по ключевым словам
+    setIsPreloader(true);          // в moviesSearched
     moviesApi
       .getMoviesList()
       .then(allMoviesList => {
-        const searchedMoviesList = allMoviesList.filter(movie => { //отфильтрованный список по поисковому текту
-          const allText = (movie['nameRU'] + movie['nameEN'] + movie['director'] + movie['country']
-            + movie['year'] + movie['description']).toLowerCase();
-          return allText.includes(searchText.toLowerCase());
-        });
+        // Создать отфильтрованный список и изменить объект на требуемый MainApi
+        const searchedMoviesList = utils.filterMoviesByWords(allMoviesList, searchText)
+          .map(movie => {
+            const mov = {
+              description: movie.description,
+              movieId: movie.id,
+              thumbnail: BEATFILMS_URL_BACKEND + movie.image.formats.thumbnail.url,
+              image: BEATFILMS_URL_BACKEND + movie.image.url,
+              trailer: movie.trailerLink || 'https://www.youtube.com/watch?v=Hc1AYD6rl1k&ab_channel=MarijaVie',
+              nameEN: movie.nameEN || 'Отсутствует',
+              nameRU: movie.nameRU || 'Отсутствует',
+              country: movie.country || 'Не указано',
+              director: movie.director,
+              duration: movie.duration,
+              year: movie.year,
+            };
+            return mov;
+          });
         setMoviesSearched(searchedMoviesList);
-        const searchShirtMovies = searchedMoviesList.filter(movie => movie.duration <= 40);
-        setMoviesShirtList(searchShirtMovies);
-        localStorage.setItem('movies-searched-shirt', JSON.stringify(searchShirtMovies))
         localStorage.setItem('movies-searched', JSON.stringify(searchedMoviesList));
-        if (searchedMoviesList.length === 0) setInfoPopup({ isOpen: true, text: 'Ничего не найдено.' })
+        if (searchedMoviesList.length === 0) {
+          localStorage.setItem('movies-searched', JSON.stringify([]));
+          setInfoPopup({ isOpen: true, text: 'Ничего не найдено.' });
+        };
       })
       .catch(err => {
         setInfoPopup({ isOpen: true, text: '«Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз».' });
@@ -59,104 +97,96 @@ function App() {
       });
   }
 
-  React.useEffect(() => { //реакция на выбор короткометражек
-    if (isShirtChoosen) setMovieToDisplayMain(moviesShirtList);
-    if (!isShirtChoosen) setMovieToDisplayMain(moviesSearched);
-  }, [isShirtChoosen, moviesShirtList, moviesSearched])
-
-
-  // React.useEffect(() => {
-  //   handleCheckToken();
-  //   Promise.all([api.getInitialCards(), api.getUserInfo()])
-  //     .then(([cardsData, userData]) => {
-  //       setCards(cardsData);
-  //       setCurrentUser(userData);
-  //     }).catch(err => console.error(err));
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
+  function handleSearchSavedMovies(searchText) {
+    const searchedMoviesList = utils.filterMoviesByWords(moviesSaved, searchText);
+    setMoviesToDisplaySaved(searchedMoviesList);
+    if (!searchedMoviesList.length) setInfoPopup({ isOpen: true, text: 'Ничего не найдено.' });
+  }
 
   // Авторизация
   function handleRegister({ name, email, password }) {
     mainApi.register({ name, email, password })
-      .then(res => {console.log(res.headers)
+      .then(res => {
         handleLogin({ email, password });
       })
-      .catch(error => {
-        error
-          .then(err => {
-            const message = getErrorMessageRus(err, 'message'); // Искать русское сообщение или первое любое
-            setInfoPopup({ isOpen: true, text: message });       //Если нет -> "Произошла ошибка, попробуйте позже."
-          })
-      })
-      .catch(_ => {        
-        setInfoPopup({ isOpen: true, text: 'Что то пошло не так!' });
-      });;
+      .catch(handleErrors);
   }
 
   function handleLogin({ email, password }) {
     mainApi.authorize({ email, password })
       .then(res => {
-        console.log(res.headers)
-        // const { token } = res;
-        // localStorage.setItem('token', token);
         setLoggedIn(true);
         setCurrentUser(res.user);
         history.push('/movies');
       })
-      .catch(error => {
-        error
-          .then(err => {
-            const message = getErrorMessageRus(err, 'message'); // Искать русское сообщение или первое любое
-            setInfoPopup({ isOpen: true, text: message });       //Если нет -> "Произошла ошибка, попробуйте позже."
-          })
-      })
-      .catch(_ => {
-        setInfoPopup({ isOpen: true, text: 'Что то пошло не так!' });
-      });;
+      .catch(handleErrors);
   }
 
-  // function handleCheckToken() {
-  //   const token = localStorage.getItem('token');
-  //   if (token) {
-  //     auth.checkToken(token)
-  //       .then(res => {
-  //         const { _id, email } = res;
-  //         setUserData({ _id, email });
-  //         setLoggedIn(true);
-  //         history.push('/');
-  //       })
-  //       .catch(err => {
-  //         console.log(err);
-  //       })
-  //   } else {
-  //     setLoggedIn(false);
-  //   }
-  // }
+  function handleUserUpdate({ name, email }) {
+    mainApi.setUserInfo({ name, email })
+      .then(res => {
+        setCurrentUser(res);
+      })
+      .catch(handleErrors);
+  }
 
-  // function handleLogOut() {
-  //   setLoggedIn(false);
-  //   localStorage.removeItem('token');
-  //   history.push('/signin');
-  //   setUserData({ _id: '', email: '' });
-  // }
-  // // если токен есть - при загрузке блокируется кратковременное появление окна регистрации
-  // if (loggedIn === null) {
-  //   return (
-  //     <Header userData={userData} handleLogOut={handleLogOut} />
-  //   )
-  // }
+  function handleLogOut() {
+    mainApi.logout(currentUser.email)
+      .then(res => {
+        setCurrentUser({});
+        setLoggedIn(false);
+        setMoviesSearched([]);
+        setMoviesSaved([]);
+        localStorage.clear();
+      })
+      .catch(handleErrors);
+  }
 
+  function handleErrors(error) {
+    console.log(error);
+    if (!error.then) return setInfoPopup({ isOpen: true, text: 'Что то пошло не так! Возможно сервер перегружен. Попробуйте позже.' });
+    error
+      .then(err => {
+        const message = utils.getErrorMessageRus(err, 'message'); // Искать русское сообщение или первое любое
+        setInfoPopup({ isOpen: true, text: message });       //Если нет -> "Произошла ошибка, попробуйте позже."
+      }).catch(_ => {
+        setInfoPopup({ isOpen: true, text: 'Что то пошло не так!' });
+      });
+  }
 
+  function handleLike(movie) { //сохранение видео 
+    mainApi.saveMovie(movie)
+      .then(movie => {
+        setMoviesSaved([...moviesSaved, movie]);
+      })
+      .catch(handleErrors);
+  };
 
+  function handleDislike(movie) {
+    const targetMovie = moviesSaved.find(mov => mov.movieId === movie.movieId)
+    mainApi.removeMovie(targetMovie._id)
+      .then(res => {
+        setMoviesSaved(moviesSaved.filter(mov => mov.movieId !== movie.movieId));
+      })
+  };
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
-      <AppStatesContext.Provider value={{ movieToDisplayMain, isPreloader, isShirtChoosen, setIsShirtChoosen, loggedIn }}>
+      <AppStatesContext.Provider value={{
+        isPreloader,
+        isShirtChoosen,
+        setIsShirtChoosen,
+        loggedIn,
+        moviesSaved,
+        handleLike,
+        handleDislike,
+      }}>
         <div className='page' >
           <Header />
           <Switch>
             <ProtectedRoute path='/movies'
               component={Movies}
+              movieList={movieToDisplayMain}
               handleSearchMovies={handleSearchMovies}
               loggedIn={loggedIn}
             >
@@ -164,6 +194,8 @@ function App() {
 
             <ProtectedRoute path='/saved-movies'
               component={SavedMovies}
+              movieList={moviesToDisplaySaved}
+              handleSearchMovies={handleSearchSavedMovies}
               loggedIn={loggedIn}
             >
             </ProtectedRoute>
@@ -171,6 +203,8 @@ function App() {
             <ProtectedRoute path='/profile'
               component={Profile}
               loggedIn={loggedIn}
+              handleUserUpdate={handleUserUpdate}
+              onLogout={handleLogOut}
             >
             </ProtectedRoute>
 

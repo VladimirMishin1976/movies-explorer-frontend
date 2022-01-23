@@ -36,7 +36,7 @@ function Header() {
 
                 <div className='header__container-hamburger'>
                   <NavLink className='header__link-hamburger link-hover' activeClassName='header__link-hamburger_active'
-                    exact='true' to='/' onClick={handleHambergerMenu} >Главная</NavLink>
+                   exact to='/' onClick={handleHambergerMenu} >Главная</NavLink>
                   <NavLink className='header__link-hamburger link-hover' activeClassName='header__link-hamburger_active'
                     to='/movies' onClick={handleHambergerMenu} >Фильмы</NavLink>
                   <NavLink className='header__link-hamburger link-hover' activeClassName='header__link-hamburger_active'
