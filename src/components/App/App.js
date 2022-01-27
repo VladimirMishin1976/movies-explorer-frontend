@@ -22,7 +22,7 @@ import * as utils from '../../utils/utils';
 import { BEATFILMS_URL_BACKEND } from '../../utils/constants';
 
 function App() {
-  const [loggedIn, setLoggedIn] = React.useState(true);
+  const [loggedIn, setLoggedIn] = React.useState(false);
   const [currentUser, setCurrentUser] = React.useState({});
   const [moviesSearched, setMoviesSearched] = React.useState(JSON.parse(localStorage.getItem('movies-searched')) || []);
   const [movieToDisplayMain, setMovieToDisplayMain] = React.useState(moviesSearched || []);
@@ -32,13 +32,14 @@ function App() {
   const [isPreloader, setIsPreloader] = React.useState(false);
   const [infoPopup, setInfoPopup] = React.useState({ isOpen: false, text: 'Тут что-то не так' });
   const history = useHistory();
-  const locationStart = window.location.pathname;
+  // const locationStart = window.location.pathname;
 
   React.useEffect(() => {
     Promise.all([mainApi.getUserInfo(), mainApi.getSavedMovies()])
       .then(([userData, savedMovies]) => {
         setCurrentUser(userData);
-        history.push(locationStart);
+        // history.push(locationStart);
+        history.push('/movies');
         setMoviesSaved(savedMovies);
         setLoggedIn(true);
       }).catch(err => {
