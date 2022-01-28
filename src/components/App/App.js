@@ -44,7 +44,7 @@ function App() {
         setLoggedIn(true);
       }).catch(err => {
         setLoggedIn(false)
-        console.error(err);
+        console.log(err);
       });
   }, [loggedIn]);
 
@@ -110,7 +110,10 @@ function App() {
       .then(res => {
         handleLogin({ email, password });
       })
-      .catch(handleErrors);
+      .catch(err => {
+        console.log(err);
+        handleErrors(err);
+      });
   }
 
   function handleLogin({ email, password }) {
@@ -120,7 +123,10 @@ function App() {
         setCurrentUser(res.user);
         history.push('/movies');
       })
-      .catch(handleErrors);
+      .catch(err => {
+        console.log(err);
+        handleErrors(err);
+      });
   }
 
   function handleUserUpdate({ name, email }) {
@@ -128,7 +134,10 @@ function App() {
       .then(res => {
         setCurrentUser(res);
       })
-      .catch(handleErrors);
+      .catch(err => {
+        console.log(err);
+        handleErrors(err);
+      });
   }
 
   function handleLogOut() {
@@ -140,11 +149,13 @@ function App() {
         setMoviesSaved([]);
         localStorage.clear();
       })
-      .catch(handleErrors);
+      .catch(err => {
+        console.log(err);
+        handleErrors(err);
+      });
   }
 
   function handleErrors(error) {
-    console.log(error);
     if (!error.then) return setInfoPopup({ isOpen: true, text: 'Что то пошло не так! Возможно сервер перегружен. Попробуйте позже.' });
     error
       .then(err => {
@@ -160,7 +171,10 @@ function App() {
       .then(movie => {
         setMoviesSaved([...moviesSaved, movie]);
       })
-      .catch(handleErrors);
+      .catch(err => {
+        console.log(err);
+        handleErrors(err);
+      });
   };
 
   function handleDislike(movie) {
