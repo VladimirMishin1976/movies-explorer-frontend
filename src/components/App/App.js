@@ -136,6 +136,7 @@ function App() {
     mainApi.setUserInfo({ name, email })
       .then(res => {
         setCurrentUser(res);
+        setInfoPopup({isOpen: true, text: 'Данные профиля изменены'})
       })
       .catch(err => {
         console.log(err);

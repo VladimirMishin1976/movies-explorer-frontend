@@ -5,13 +5,20 @@ import './Profile.css';
 import { useFormWithValidation } from '../../hooks/useFormWithValidation';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 
-function Profile({ handleUserUpdate , onLogout}) {
+function Profile({ handleUserUpdate, onLogout }) {
   const currentUser = React.useContext(CurrentUserContext);
-
   const { values, setValues, handleChange, errors, isValid, resetForm } = useFormWithValidation();
+  const [isSubmitActive, setIsSubmitActive] = React.useState(false);
+
   React.useEffect(() => {
     setValues({ ...currentUser });
-  }, [currentUser, setValues, resetForm])
+  }, [])
+
+  React.useEffect(() => { // Блокирование сабмита при невалидных данных и отсутсвии изменения в полях
+    if ((values.name !== currentUser.name || values.email !== currentUser.email) && isValid) {
+      setIsSubmitActive(true);
+    } else setIsSubmitActive(false);
+  }, [handleChange])
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -43,8 +50,8 @@ function Profile({ handleUserUpdate , onLogout}) {
             onChange={handleChange} />
         </label>
         <span className='profile__error'>{errors.email}</span>
-        <button className={`profile__button ${isValid ? 'button-hover' : 'profile__button_disabled'}`}
-          type="submit" onSubmit={handleSubmit} disabled={!isValid} >Редактировать</button>
+        <button className={`profile__button ${isSubmitActive ? 'button-hover' : 'profile__button_disabled'}`}
+          type="submit" onSubmit={handleSubmit} disabled={!isSubmitActive} >Редактировать</button>
         <button className='profile__button profile__button_logout button-hover' type="button" onClick={onLogout}>Выйти из аккаунта</button>
       </form>
 
