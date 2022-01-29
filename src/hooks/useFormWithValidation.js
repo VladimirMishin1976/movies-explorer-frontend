@@ -1,4 +1,6 @@
 import React, { useCallback } from "react";
+const validator = require('validator');
+
 
 //хук управления формой и валидации формы
 export function useFormWithValidation() {
@@ -13,8 +15,14 @@ export function useFormWithValidation() {
     setValues({ ...values, [name]: value });
     setErrors({ ...errors, [name]: target.validationMessage });
     setIsValid(target.closest("form").checkValidity());
+
     if (name === 'name' && value.replace(/[a-zа-я\s-]/gi, '')) {
       setErrors({ ...errors, 'name': 'Введены недопустимые символы' });
+      setIsValid(false);
+    }
+
+    if (name === 'email' && !validator.isEmail(value) && !target.validationMessage) {
+      setErrors({ ...errors, 'email': 'Поле email должно быть валидным' })
       setIsValid(false);
     }
   };

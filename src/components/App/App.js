@@ -25,10 +25,10 @@ function App() {
   const [loggedIn, setLoggedIn] = React.useState(false);
   const [currentUser, setCurrentUser] = React.useState({});
   const [moviesSearched, setMoviesSearched] = React.useState(JSON.parse(localStorage.getItem('movies-searched')) || []);
+  const [searchState, setSearchState] = React.useState(JSON.parse(localStorage.getItem('search-state')) || {text: '', isShirt: false});
   const [movieToDisplayMain, setMovieToDisplayMain] = React.useState(moviesSearched || []);
   const [moviesSaved, setMoviesSaved] = React.useState([]); // сохраненные/лайкнутые видео
   const [moviesToDisplaySaved, setMoviesToDisplaySaved] = React.useState([]);
-  const [isShirtChoosen, setIsShirtChoosen] = React.useState(false);
   const [isPreloader, setIsPreloader] = React.useState(false);
   const [infoPopup, setInfoPopup] = React.useState({ isOpen: false, text: 'Тут что-то не так' });
   const history = useHistory();
@@ -48,19 +48,20 @@ function App() {
       });
   }, [loggedIn]);
 
-  React.useEffect(() => { //реакция на выбор короткометражек
-    if (isShirtChoosen) setMovieToDisplayMain(moviesSearched.filter(movie => movie.duration <= 40));
-    if (!isShirtChoosen) setMovieToDisplayMain(moviesSearched);
-  }, [isShirtChoosen, moviesSearched]);
+  React.useEffect(() => { //реакция на выбор короткометражек страница фильмы
+    if (searchState.isShirt) setMovieToDisplayMain(moviesSearched.filter(movie => movie.duration <= 40));
+    if (!searchState.isShirt) setMovieToDisplayMain(moviesSearched);
+  }, [searchState, moviesSearched]);
 
-  React.useEffect(() => { //реакция на выбор короткометражек
-    if (isShirtChoosen) setMoviesToDisplaySaved(moviesSaved.filter(movie => movie.duration <= 40));
-    if (!isShirtChoosen) setMoviesToDisplaySaved(moviesSaved);
-  }, [isShirtChoosen, moviesSaved]);
+  React.useEffect(() => { //реакция на выбор короткометражек страница сохраненные фильмы
+    if (searchState.isShirt) setMoviesToDisplaySaved(moviesSaved.filter(movie => movie.duration <= 40));
+    if (!searchState.isShirt) setMoviesToDisplaySaved(moviesSaved);
+  }, [searchState, moviesSaved]);
 
 
   function handleSearchMovies(searchText) {//получение списка с BeatfilmMoviesApi и поиск фильмов по ключевым словам
     setIsPreloader(true);          // в moviesSearched
+    localStorage.setItem('search-state', JSON.stringify({...searchState, text: searchText}));
     moviesApi
       .getMoviesList()
       .then(allMoviesList => {
@@ -189,8 +190,8 @@ function App() {
     <CurrentUserContext.Provider value={currentUser}>
       <AppStatesContext.Provider value={{
         isPreloader,
-        isShirtChoosen,
-        setIsShirtChoosen,
+        searchState,
+        setSearchState,
         loggedIn,
         moviesSaved,
         handleLike,

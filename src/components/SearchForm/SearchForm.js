@@ -1,18 +1,23 @@
 import React from "react";
 
 import useInput from '../../hooks/useInput';
-
+import { AppStatesContext } from "../../contexts/AppStatesContext";
 import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
 import './SearchForm.css';
 
 function SearchForm({ handleSubmit }) {
   const useInputsearch = useInput('');
+  const searchState = React.useContext(AppStatesContext).searchState;
+
+  React.useEffect(() => {
+    useInputsearch.setValue(searchState.text)
+  }, []);
 
   function onSubmit(e) {
     e.preventDefault();
     const searchText = e.target[0].value;
     handleSubmit(searchText);
-    useInputsearch.clear();
+    useInputsearch.setValue(searchText);
   }
 
   return (

@@ -14,7 +14,7 @@ function useInput(initialValue) {
 
   return {
     input: { value, onChange },
-    value, clear, onChange
+    value, setValue, clear, onChange
   }
 }
 
