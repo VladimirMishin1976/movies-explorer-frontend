@@ -8,7 +8,7 @@ function FilterCheckbox() {
   const setSearchState = React.useContext(AppStatesContext).setSearchState;
 
   function onChange(event) {
-    setSearchState({ ...searchState, isShirt: event.target.checked });
+    setSearchState({ ...searchState, isShirt: !searchState.isShirt });
   }
 
   return (

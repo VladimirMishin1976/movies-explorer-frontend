@@ -8,10 +8,15 @@ import './SearchForm.css';
 function SearchForm({ handleSubmit }) {
   const useInputsearch = useInput('');
   const searchState = React.useContext(AppStatesContext).searchState;
+  const setSearchState = React.useContext(AppStatesContext).setSearchState;
 
   React.useEffect(() => {
     useInputsearch.setValue(searchState.text)
   }, []);
+
+  React.useEffect(() => {
+    setSearchState({ ...searchState, text: useInputsearch.value })
+  }, [useInputsearch.value]);
 
   function onSubmit(e) {
     e.preventDefault();
