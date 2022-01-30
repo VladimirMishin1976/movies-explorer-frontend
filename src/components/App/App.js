@@ -19,13 +19,15 @@ import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import { AppStatesContext } from '../../contexts/AppStatesContext';
 
 import * as utils from '../../utils/utils';
-import { BEATFILMS_URL_BACKEND } from '../../utils/constants';
+import { BEATFILMS_URL_BACKEND, DURATION_SHIRT_FILMS } from '../../utils/constants';
 
 function App() {
   const [loggedIn, setLoggedIn] = React.useState(null);
   const [currentUser, setCurrentUser] = React.useState({});
+  const [allMoviesList, setAllMoviesList] = React.useState(false);
   const [moviesSearched, setMoviesSearched] = React.useState(JSON.parse(localStorage.getItem('movies-searched')) || []);
   const [searchState, setSearchState] = React.useState(JSON.parse(localStorage.getItem('search-state')) || { text: '', isShirt: false });
+  const [searchStateSavedMovies, setSearchStateSavedMovies] = React.useState(JSON.parse(localStorage.getItem('search-state-saved-movies')) || { text: '', isShirt: false });
   const [movieToDisplayMain, setMovieToDisplayMain] = React.useState(moviesSearched || []);
   const [moviesSaved, setMoviesSaved] = React.useState([]); // сохраненные/лайкнутые видео
   const [moviesToDisplaySaved, setMoviesToDisplaySaved] = React.useState([]);
@@ -48,54 +50,61 @@ function App() {
   }, [loggedIn]);
 
   React.useEffect(() => { //реакция на выбор короткометражек страница фильмы
-    if (searchState.isShirt) setMovieToDisplayMain(moviesSearched.filter(movie => movie.duration <= 40));
+    if (searchState.isShirt) setMovieToDisplayMain(moviesSearched.filter(movie => movie.duration <= DURATION_SHIRT_FILMS));
     if (!searchState.isShirt) setMovieToDisplayMain(moviesSearched);
     localStorage.setItem('search-state', JSON.stringify(searchState));
   }, [searchState, moviesSearched]);
 
   React.useEffect(() => { //реакция на выбор короткометражек страница сохраненные фильмы
-    if (searchState.isShirt) setMoviesToDisplaySaved(moviesSaved.filter(movie => movie.duration <= 40));
+    if (searchState.isShirt) setMoviesToDisplaySaved(moviesSaved.filter(movie => movie.duration <= DURATION_SHIRT_FILMS));
     if (!searchState.isShirt) setMoviesToDisplaySaved(moviesSaved);
-  }, [searchState, moviesSaved]);
+    localStorage.setItem('search-state-saved-movies', JSON.stringify(searchStateSavedMovies));
+  }, [searchStateSavedMovies, moviesSaved]);
 
 
   function handleSearchMovies(searchText) {//получение списка с BeatfilmMoviesApi и поиск фильмов по ключевым словам
-    setIsPreloader(true);          // в moviesSearched
-    moviesApi
-      .getMoviesList()
-      .then(allMoviesList => {
-        // Создать отфильтрованный список и изменить объект на требуемый MainApi
-        const searchedMoviesList = utils.filterMoviesByWords(allMoviesList, searchText)
-          .map(movie => {
-            const mov = {
-              description: movie.description,
-              movieId: movie.id,
-              thumbnail: BEATFILMS_URL_BACKEND + movie.image.formats.thumbnail.url,
-              image: BEATFILMS_URL_BACKEND + movie.image.url,
-              trailer: movie.trailerLink || 'https://www.youtube.com/watch?v=Hc1AYD6rl1k&ab_channel=MarijaVie',
-              nameEN: movie.nameEN || 'Отсутствует',
-              nameRU: movie.nameRU || 'Отсутствует',
-              country: movie.country || 'Не указано',
-              director: movie.director,
-              duration: movie.duration,
-              year: movie.year,
-            };
-            return mov;
-          });
-        setMoviesSearched(searchedMoviesList);
-        localStorage.setItem('movies-searched', JSON.stringify(searchedMoviesList));
-        if (searchedMoviesList.length === 0) {
-          localStorage.setItem('movies-searched', JSON.stringify([]));
-          setInfoPopup({ isOpen: true, text: 'Ничего не найдено.' });
+    if (!allMoviesList) {
+      setIsPreloader(true);
+      moviesApi
+        .getMoviesList()
+        .then(movies => {
+          setAllMoviesList(movies);
+          createFilteredList(movies, searchText)
+        })
+        .catch(handleErrors)
+        .finally(_ => {
+          setIsPreloader(false);
+        });
+    } else {
+      createFilteredList(allMoviesList, searchText)
+    }
+  }
+
+  // Создать отфильтрованный список и изменить объект на требуемый MainApi
+  function createFilteredList(allMoviesList, searchText) {
+    const searchedMoviesList = utils.filterMoviesByWords(allMoviesList, searchText)
+      .map(movie => {
+        const mov = {
+          description: movie.description,
+          movieId: movie.id,
+          thumbnail: BEATFILMS_URL_BACKEND + movie.image.formats.thumbnail.url,
+          image: BEATFILMS_URL_BACKEND + movie.image.url,
+          trailer: movie.trailerLink || 'https://www.youtube.com/watch?v=Hc1AYD6rl1k&ab_channel=MarijaVie',
+          nameEN: movie.nameEN || 'Отсутствует',
+          nameRU: movie.nameRU || 'Отсутствует',
+          country: movie.country || 'Не указано',
+          director: movie.director,
+          duration: movie.duration,
+          year: movie.year,
         };
-      })
-      .catch(err => {
-        setInfoPopup({ isOpen: true, text: '«Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз».' });
-        console.log(err);
-      })
-      .finally(_ => {
-        setIsPreloader(false);
+        return mov;
       });
+    setMoviesSearched(searchedMoviesList);
+    localStorage.setItem('movies-searched', JSON.stringify(searchedMoviesList));
+    if (searchedMoviesList.length === 0) {
+      localStorage.setItem('movies-searched', JSON.stringify([]));
+      setInfoPopup({ isOpen: true, text: 'Ничего не найдено.' });
+    };
   }
 
   function handleSearchSavedMovies(searchText) {
@@ -110,10 +119,7 @@ function App() {
       .then(res => {
         handleLogin({ email, password });
       })
-      .catch(err => {
-        console.log(err);
-        handleErrors(err);
-      });
+      .catch(handleErrors);
   }
 
   function handleLogin({ email, password }) {
@@ -123,10 +129,7 @@ function App() {
         setCurrentUser(res.user);
         locationStart.current = '/movies';
       })
-      .catch(err => {
-        console.log(err);
-        handleErrors(err);
-      });
+      .catch(handleErrors);
   }
 
   function handleUserUpdate({ name, email }) {
@@ -135,10 +138,7 @@ function App() {
         setCurrentUser(res);
         setInfoPopup({ isOpen: true, text: 'Данные профиля изменены' })
       })
-      .catch(err => {
-        console.log(err);
-        handleErrors(err);
-      });
+      .catch(handleErrors);
   }
 
   function handleLogOut() {
@@ -148,15 +148,15 @@ function App() {
         setLoggedIn(false);
         setMoviesSearched([]);
         setMoviesSaved([]);
+        setSearchState({ text: '', isShirt: false });
+        setSearchStateSavedMovies({ text: '', isShirt: false });
         localStorage.clear();
       })
-      .catch(err => {
-        console.log(err);
-        handleErrors(err);
-      });
+      .catch(handleErrors);
   }
 
   function handleErrors(error) {
+    console.log(error);
     if (!error.then) return setInfoPopup({ isOpen: true, text: 'Что то пошло не так! Возможно сервер перегружен. Попробуйте позже.' });
     error
       .then(err => {
@@ -172,10 +172,7 @@ function App() {
       .then(movie => {
         setMoviesSaved([...moviesSaved, movie]);
       })
-      .catch(err => {
-        console.log(err);
-        handleErrors(err);
-      });
+      .catch(handleErrors);
   };
 
   function handleDislike(movie) {
@@ -184,6 +181,7 @@ function App() {
       .then(res => {
         setMoviesSaved(moviesSaved.filter(mov => mov.movieId !== movie.movieId));
       })
+      .catch(handleErrors);
   };
 
   if (loggedIn === null) return (<></>)
@@ -191,8 +189,6 @@ function App() {
     <CurrentUserContext.Provider value={currentUser}>
       <AppStatesContext.Provider value={{
         isPreloader,
-        searchState,
-        setSearchState,
         loggedIn,
         moviesSaved,
         handleLike,
@@ -206,6 +202,8 @@ function App() {
               component={Movies}
               movieList={movieToDisplayMain}
               handleSearchMovies={handleSearchMovies}
+              searchState={searchState}
+              setSearchState={setSearchState}
               loggedIn={loggedIn}
             />
 
@@ -213,6 +211,8 @@ function App() {
               component={SavedMovies}
               movieList={moviesToDisplaySaved}
               handleSearchMovies={handleSearchSavedMovies}
+              searchState={searchStateSavedMovies}
+              setSearchState={setSearchStateSavedMovies}
               loggedIn={loggedIn}
             />
 

@@ -5,22 +5,30 @@ import MoviesCard from '../MoviesCard/MoviesCard';
 import { AppStatesContext } from '../../contexts/AppStatesContext';
 import Preloader from '../Preloader/Preloader';
 import './MoviesCardList.css';
+import {
+  WIDTH_SCREEN_FOR_NUMBER_FILMS,
+  NUMBER_CARDS_FOR_BIG_SCREEN,
+  NUMBER_CARDS_FOR_SMALL_SCREEN
+} from '../../utils/constants';
 
-function MoviesCardList({movieList}) {
+function MoviesCardList({ movieList }) {
   const isPreload = React.useContext(AppStatesContext).isPreloader;
   const [countMoreClicks, setСountMoreClicks] = React.useState(1);
   const [countCards, setCountCards] = React.useState(numberCardsOfWidth());
   //  счетчик кликов кнопки - еще 
   function onMoreClick() {
     setСountMoreClicks(countMoreClicks + 1);
-    setCountCards(numberCardsOfWidth());
   }
+
+  React.useEffect(() => {
+    setCountCards(numberCardsOfWidth());
+  }, [countMoreClicks])
   // Получить количество отображаемых карточек в зависимости от ширины экрана количества кликов кнопки ЕЩЕ 
   //    и количества карточек
   function numberCardsOfWidth() {
     let width = window.innerWidth;
-    let numberCards = countMoreClicks * 5;
-    if (width > 600) numberCards = countMoreClicks * 7;
+    let numberCards = countMoreClicks * NUMBER_CARDS_FOR_SMALL_SCREEN;
+    if (width > WIDTH_SCREEN_FOR_NUMBER_FILMS) numberCards = countMoreClicks * NUMBER_CARDS_FOR_BIG_SCREEN;
     return numberCards;
   }
 

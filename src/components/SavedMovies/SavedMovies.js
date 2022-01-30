@@ -5,10 +5,14 @@ import MoviesCardList from "../MoviesCardList/MoviesCardList";
 
 import './SavedMovies.css';
 
-function SavedMovies({ handleSearchMovies, movieList }) {
+function SavedMovies({ handleSearchMovies, movieList, searchState, setSearchState }) {
   return (
     <main className='saved-movies'>
-      <SearchForm handleSubmit={handleSearchMovies} />
+      <SearchForm
+        handleSubmit={handleSearchMovies}
+        searchState={searchState}
+        setSearchState={setSearchState}
+      />
       <MoviesCardList
         movieList={movieList}
       />
@@ -16,4 +20,4 @@ function SavedMovies({ handleSearchMovies, movieList }) {
   );
 }
 
-export default SavedMovies;
+export default SavedMovies;  

@@ -5,10 +5,14 @@ import MoviesCardList from '../MoviesCardList/MoviesCardList';
 
 import './Movies.css';
 
-function Movies({ handleSearchMovies, movieList }) {
+function Movies({ handleSearchMovies, movieList, searchState, setSearchState }) {
   return (
     <main className="movies">
-      <SearchForm handleSubmit={handleSearchMovies} />
+      <SearchForm
+        handleSubmit={handleSearchMovies}
+        searchState={searchState}
+        setSearchState={setSearchState}
+      />
       <MoviesCardList
         movieList={movieList}
       />

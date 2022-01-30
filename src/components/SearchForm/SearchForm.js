@@ -1,14 +1,11 @@
 import React from "react";
 
 import useInput from '../../hooks/useInput';
-import { AppStatesContext } from "../../contexts/AppStatesContext";
 import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
 import './SearchForm.css';
 
-function SearchForm({ handleSubmit }) {
+function SearchForm({ handleSubmit, searchState, setSearchState }) {
   const useInputsearch = useInput('');
-  const searchState = React.useContext(AppStatesContext).searchState;
-  const setSearchState = React.useContext(AppStatesContext).setSearchState;
 
   React.useEffect(() => {
     useInputsearch.setValue(searchState.text)
@@ -34,7 +31,10 @@ function SearchForm({ handleSubmit }) {
           <button className="search__submit button-hover" type="submit" >Найти</button>
         </form>
         <div className='search__check-box'>
-          <FilterCheckbox />
+          <FilterCheckbox
+            searchState={searchState}
+            setSearchState={setSearchState}
+          />
         </div>
       </section>
       <div className='search__decor' />
