@@ -56,8 +56,8 @@ function App() {
   }, [searchState, moviesSearched]);
 
   React.useEffect(() => { //реакция на выбор короткометражек страница сохраненные фильмы
-    if (searchState.isShirt) setMoviesToDisplaySaved(moviesSaved.filter(movie => movie.duration <= DURATION_SHIRT_FILMS));
-    if (!searchState.isShirt) setMoviesToDisplaySaved(moviesSaved);
+    if (searchStateSavedMovies.isShirt) setMoviesToDisplaySaved(moviesSaved.filter(movie => movie.duration <= DURATION_SHIRT_FILMS));
+    if (!searchStateSavedMovies.isShirt) setMoviesToDisplaySaved(moviesSaved);
     localStorage.setItem('search-state-saved-movies', JSON.stringify(searchStateSavedMovies));
   }, [searchStateSavedMovies, moviesSaved]);
 
