@@ -22,7 +22,7 @@ import * as utils from '../../utils/utils';
 import { BEATFILMS_URL_BACKEND } from '../../utils/constants';
 
 function App() {
-  const [loggedIn, setLoggedIn] = React.useState(false);
+  const [loggedIn, setLoggedIn] = React.useState(null);
   const [currentUser, setCurrentUser] = React.useState({});
   const [moviesSearched, setMoviesSearched] = React.useState(JSON.parse(localStorage.getItem('movies-searched')) || []);
   const [searchState, setSearchState] = React.useState(JSON.parse(localStorage.getItem('search-state')) || { text: '', isShirt: false });
@@ -32,20 +32,17 @@ function App() {
   const [isPreloader, setIsPreloader] = React.useState(false);
   const [infoPopup, setInfoPopup] = React.useState({ isOpen: false, text: 'Тут что-то не так' });
   const history = useHistory();
-  // const locationStart = window.location.pathname;
-
-  console.log('рендер')
+  const locationStart = React.useRef(window.location.pathname);
 
   React.useEffect(() => {
     Promise.all([mainApi.getUserInfo(), mainApi.getSavedMovies()])
       .then(([userData, savedMovies]) => {
         setCurrentUser(userData);
-        // history.push(locationStart);
-        history.push('/movies');
+        history.push(locationStart.current);
         setMoviesSaved(savedMovies);
         setLoggedIn(true);
       }).catch(err => {
-        setLoggedIn(false)
+        setLoggedIn(false);
         console.log(err);
       });
   }, [loggedIn]);
@@ -124,7 +121,7 @@ function App() {
       .then(res => {
         setLoggedIn(true);
         setCurrentUser(res.user);
-        history.push('/movies');
+        locationStart.current = '/movies';
       })
       .catch(err => {
         console.log(err);
@@ -136,7 +133,7 @@ function App() {
     mainApi.setUserInfo({ name, email })
       .then(res => {
         setCurrentUser(res);
-        setInfoPopup({isOpen: true, text: 'Данные профиля изменены'})
+        setInfoPopup({ isOpen: true, text: 'Данные профиля изменены' })
       })
       .catch(err => {
         console.log(err);
@@ -189,6 +186,7 @@ function App() {
       })
   };
 
+  if (loggedIn === null) return (<></>)
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <AppStatesContext.Provider value={{
@@ -203,44 +201,39 @@ function App() {
         <div className='page' >
           <Header />
           <Switch>
+
             <ProtectedRoute path='/movies'
               component={Movies}
               movieList={movieToDisplayMain}
               handleSearchMovies={handleSearchMovies}
               loggedIn={loggedIn}
-            >
-            </ProtectedRoute>
+            />
 
             <ProtectedRoute path='/saved-movies'
               component={SavedMovies}
               movieList={moviesToDisplaySaved}
               handleSearchMovies={handleSearchSavedMovies}
               loggedIn={loggedIn}
-            >
-            </ProtectedRoute>
+            />
 
             <ProtectedRoute path='/profile'
               component={Profile}
               loggedIn={loggedIn}
               handleUserUpdate={handleUserUpdate}
               onLogout={handleLogOut}
-            >
-            </ProtectedRoute>
+            />
 
             <ProtectedRoute path='/signin'
               component={Login}
               loggedIn={!loggedIn}
               handleLogin={handleLogin}
-            >
-
-            </ProtectedRoute>
+            />
 
             <ProtectedRoute path='/signup'
               component={Register}
               loggedIn={!loggedIn}
               handleRegister={handleRegister}
-            >
-            </ProtectedRoute>
+            />
 
             <Route exact path='/'>
               <Main />
