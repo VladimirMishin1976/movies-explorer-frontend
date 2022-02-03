@@ -12,7 +12,7 @@
 }
 
 .card__img {
-  object-fit: contain;
+  object-fit: cover;
   width: 220px;
   height: 122px;
   margin: 6px;
@@ -36,7 +36,7 @@
 .card__like {
   padding: 0;
   margin: -2px -4px;
-  border-style: none;
+  border-style: none; 
   width: 22px;
   height: 14px;
   background: url(../../images/like.svg) no-repeat center;
