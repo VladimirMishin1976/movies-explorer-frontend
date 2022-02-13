@@ -36,6 +36,10 @@ function App() {
   const history = useHistory();
   const locationStart = React.useRef(window.location.pathname);
 
+  const countRender = React.useRef(0);
+  countRender.current++;
+  console.log('app', countRender.current)
+
   React.useEffect(() => {
     Promise.all([mainApi.getUserInfo(), mainApi.getSavedMovies()])
       .then(([userData, savedMovies]) => {
