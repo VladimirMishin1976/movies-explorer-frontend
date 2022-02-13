@@ -11,7 +11,7 @@
 * лайк по иконке лайка отправляет запрос на сохранение фильма в созданном API. Дизлайк  — запрос на удаление. Добавленный фильм отображается на странице сохранённых фильмов.
 
 ## Ссылки
-### Сервер https://api.movies.mishin.nomoredomains.club
-### IP сервера 62.84.123.186
-### Сайт https://movies.mishin.nomoredomains.club
-### Макет в фигме https://www.figma.com/file/WK6j1O4BgxrqlyKPz0Y5O4/Diploma-(Copy)?node-id=891%3A3857
+ Сервер https://api.movies.mishin.nomoredomains.club
+ IP сервера 62.84.123.186
+ Сайт https://movies.mishin.nomoredomains.club
+ Макет в фигме https://www.figma.com/file/WK6j1O4BgxrqlyKPz0Y5O4/Diploma-(Copy)?node-id=891%3A3857
