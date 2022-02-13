@@ -1,20 +1,23 @@
 import React from "react";
 
 import SearchForm from "../SearchForm/SearchForm";
-import Preloader from '../Preloader/Preloader';
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 
 import './SavedMovies.css';
 
-function  SavedMovies() {
+function SavedMovies({ handleSearchMovies, movieList, searchState, setSearchState }) {
   return (
     <main className='saved-movies'>
-      {/* <Preloader /> */}
-
-      <SearchForm />
-      <MoviesCardList />
+      <SearchForm
+        handleSubmit={handleSearchMovies}
+        searchState={searchState}
+        setSearchState={setSearchState}
+      />
+      <MoviesCardList
+        movieList={movieList}
+      />
     </main>
   );
 }
 
-export default SavedMovies;
+export default SavedMovies;  

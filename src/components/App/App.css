@@ -4,4 +4,23 @@
   max-width: 1280px;
   min-width: 320px;
   margin: auto;
+  position: relative;
+}
+
+.link-hover {
+  transition: opacity 0.2s linear;
+  cursor: pointer;
+}
+
+.link-hover:hover {
+  opacity: .7;
+}
+
+.button-hover {
+  cursor: pointer;
+  transition: opacity 0.2s linear;
+}
+
+.button-hover:hover {
+  opacity: .8;
 }

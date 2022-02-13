@@ -29,6 +29,10 @@
   color: #000000;
 }
 
+.movies-list__button_hidden {
+  visibility: hidden;
+}
+
 .movies-list__devider {
   padding-top: 70px;
 }
