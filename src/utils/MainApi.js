@@ -1,4 +1,4 @@
-import { MAIN_URL_BACKEND } from './constants';
+import { REACT_APP_MAIN_URL_BACKEND } from './constants';
 
 //  проверка ответа
 const checkResponse = (res) => {
@@ -9,7 +9,7 @@ const checkResponse = (res) => {
 }
 
 export const register = ({ name, email, password }) => {
-  return fetch(`${MAIN_URL_BACKEND}/signup`, {
+  return fetch(`${REACT_APP_MAIN_URL_BACKEND}/signup`, {
     // credentials: "include",
     method: 'POST',
     headers: {
@@ -21,7 +21,7 @@ export const register = ({ name, email, password }) => {
 }
 
 export const authorize = ({ email, password }) => {
-  return fetch(`${MAIN_URL_BACKEND}/signin`, {
+  return fetch(`${REACT_APP_MAIN_URL_BACKEND}/signin`, {
     credentials: "include",
     method: 'POST',
     headers: {
@@ -33,7 +33,7 @@ export const authorize = ({ email, password }) => {
 }
 
 export const setUserInfo = ({ name, email }) => { //3. Редактирование профиля
-  return fetch(`${MAIN_URL_BACKEND}/users/me`,
+  return fetch(`${REACT_APP_MAIN_URL_BACKEND}/users/me`,
     {
       credentials: "include",
       method: 'PATCH',
@@ -49,7 +49,7 @@ export const setUserInfo = ({ name, email }) => { //3. Редактирован�
 }
 
 export const logout = (email) => {
-  return fetch(`${MAIN_URL_BACKEND}/signout`,
+  return fetch(`${REACT_APP_MAIN_URL_BACKEND}/signout`,
     {
       credentials: "include",
       method: 'POST',
@@ -63,7 +63,7 @@ export const logout = (email) => {
 }
 
 export const getUserInfo = () => {
-  return fetch(`${MAIN_URL_BACKEND}/users/me`, {
+  return fetch(`${REACT_APP_MAIN_URL_BACKEND}/users/me`, {
     credentials: 'include',
     method: 'GET',
     headers: {
@@ -73,7 +73,7 @@ export const getUserInfo = () => {
 }
 
 export const saveMovie = (movie) => {
-  return fetch(`${MAIN_URL_BACKEND}/movies`, {
+  return fetch(`${REACT_APP_MAIN_URL_BACKEND}/movies`, {
     credentials: 'include',
     method: 'POST',
     headers: {
@@ -84,7 +84,7 @@ export const saveMovie = (movie) => {
 }
 
 export const removeMovie = (_id) => {
-  return fetch(`${MAIN_URL_BACKEND}/movies/${_id}`, {
+  return fetch(`${REACT_APP_MAIN_URL_BACKEND}/movies/${_id}`, {
     credentials: 'include',
     method: 'DELETE',
     headers: {
@@ -94,7 +94,7 @@ export const removeMovie = (_id) => {
 }
 
 export const getSavedMovies = () => {
-  return fetch(`${MAIN_URL_BACKEND}/movies`, {
+  return fetch(`${REACT_APP_MAIN_URL_BACKEND}/movies`, {
     credentials: 'include',
     method: 'GET',
     headers: {

@@ -19,7 +19,7 @@ import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import { AppStatesContext } from '../../contexts/AppStatesContext';
 
 import * as utils from '../../utils/utils';
-import { BEATFILMS_URL_BACKEND, DURATION_SHIRT_FILMS } from '../../utils/constants';
+import { REACT_APP_BEATFILMS_URL_BACKEND, DURATION_SHIRT_FILMS } from '../../utils/constants';
 
 function App() {
   const [loggedIn, setLoggedIn] = React.useState(null);
@@ -87,8 +87,8 @@ function App() {
         const mov = {
           description: movie.description,
           movieId: movie.id,
-          thumbnail: BEATFILMS_URL_BACKEND + movie.image.formats.thumbnail.url,
-          image: BEATFILMS_URL_BACKEND + movie.image.url,
+          thumbnail: REACT_APP_BEATFILMS_URL_BACKEND + movie.image.formats.thumbnail.url,
+          image: REACT_APP_BEATFILMS_URL_BACKEND + movie.image.url,
           trailer: movie.trailerLink || 'https://www.youtube.com/watch?v=Hc1AYD6rl1k&ab_channel=MarijaVie',
           nameEN: movie.nameEN || 'Отсутствует',
           nameRU: movie.nameRU || 'Отсутствует',
